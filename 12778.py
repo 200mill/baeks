@@ -1,18 +1,16 @@
 import string
 
 def Load(attempts, type, re):
-    #attempts, type = input().split()
-    #re = input().split()
     attempts = int(attempts)
     if(type == 'C'):
         a = []
-        for i in range(len(attempts)):
+        for i in range(attempts):
             a.append(ord(re[i])-64)
         return a
-    if(type == 'D'):
+    if(type == 'N'):
         d = []
-        for i in range(len(attempts)):
-            d.append(str.encode(encoding='ascii', self=re[i]+64))
+        for i in range(attempts):
+            d.append(chr(int(re[i])+64))
         return d
     
 cases = int(input())
@@ -22,4 +20,6 @@ for i in range(cases):
     re = input().split()
     output.append(Load(attempts, type, re))
 for i in range(cases):
-    print(output[i])
+    for t in range(len(output[i])):
+        print(output[i][t], end=' ')
+    print()
