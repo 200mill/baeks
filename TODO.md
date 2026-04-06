@@ -7,5 +7,3 @@ https://www.acmicpc.net/problem/2733
 https://www.acmicpc.net/problem/4636
 
 https://www.acmicpc.net/problem/9999
-
-https://www.acmicpc.net/problem/11506
