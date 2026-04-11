@@ -5,7 +5,7 @@
 #include <string.h>
 
 
-// from (discord)@pnyani
+// Function reviewed : (discord)@pnyani
 void Fuck() { // this function reads command
     // init
     size_t capacity = 256;
@@ -46,6 +46,7 @@ int FuckCompute(char* commands) {
     unsigned char memory[32768] = {0};
     int len = strlen(commands);
 
+    // check bracket
     {
         int depth = 0;
         for(int i = 0; i < len; i++) {
