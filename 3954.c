@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-typedef struct BracketPos {
+struct BracketPos {
     int open;
     int close;
 };
@@ -14,26 +14,28 @@ int Compute() {
     // memory init
     unsigned int memory[M] = {0};
     unsigned int pointer = 0;
-    char code[C] = {0};
+    char commands[C] = {0};
     char input[I] = {0};
     unsigned int computeTime = 0;
 
-    
+    fgets(commands, C, stdin);
+
+    struct BracketPos SelectedBracket;
 
     for(int i = 0; i < C; i++) {
         if(++computeTime == 5000000) {
-            // Loops?
+            printf("Loops %d %d\n", SelectedBracket.open, SelectedBracket.close);
         }
         switch(commands[i]) {
             case '>':
-                if(pointer == 32767)
+                if(pointer == M)
                     pointer = 0;
                 else
                     pointer++;
                 break;
             case '<':
                 if(pointer == 0)
-                    pointer = 32767;
+                    pointer = M;
                 else
                     pointer--;
                 break;
@@ -44,24 +46,54 @@ int Compute() {
                 memory[pointer]--;
                 break;
             case '[':
-                
+                if (memory[pointer] == 0) // loop open Br-O
+                    if (FindBracketO(commands, &i) == 1) { return 1; }
+                else {
+                    SelectedBracket.open = pointer;
+                }
                 break;
             case ']':
-                
+                if (memory[pointer] != 0) {
+                    SelectedBracket.close = pointer;
+                    if (FindBracketC(commands, &i) == 1) return 1;
+                }
                 break;
             case '.':
                 // printf("%c", memory[pointer]);
+                // ignore
                 break;
             default:
                 break;
         }
     }
-    
-
     return -1;
 }
 
-)
+int FindBracketO(char* commands, int* index) {
+    int depth = 1;
+    for(int i = *index + 1; i < strlen(commands); i++) {
+        if(commands[i] == '[') depth++;
+        else if(commands[i] == ']') depth--;
+        if(depth == 0) {
+            *index = i;
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int FindBracketC(char* commands, int *index) {
+    int depth = 1;
+    for(int i = *index - 1; i >= 0; i--) {
+        if(commands[i] == ']') depth++;
+        else if(commands[i] == '[') depth--;
+        if(depth == 0) {
+            *index = i;
+            return 0;
+        }
+    }
+    return 1;
+}
 
 int main() {
     int loops;
