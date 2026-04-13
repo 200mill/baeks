@@ -96,7 +96,7 @@ int FuckCompute(char* commands) {
     return 0;
 }
 
-int FindBracketO(char* commands, int* index) {
+int FindBracketO(const char* commands, int* index) {
     int depth = 1;
     for(int i = *index + 1; i < strlen(commands); i++) {
         if(commands[i] == '[') depth++;

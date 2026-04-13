@@ -1,11 +1,38 @@
 // problem : https://www.acmicpc.net/problem/3954
 
 #include <stdio.h>
+#include <string.h>
 
 struct BracketPos {
     int open;
     int close;
 };
+
+int FindBracketO(const char* commands, int* index) {
+    int depth = 1;
+    for(int i = *index + 1; i < strlen(commands); i++) {
+        if(commands[i] == '[') depth++;
+        else if(commands[i] == ']') depth--;
+        if(depth == 0) {
+            *index = i;
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int FindBracketC(const char* commands, int *index) {
+    int depth = 1;
+    for(int i = *index - 1; i >= 0; i--) {
+        if(commands[i] == ']') depth++;
+        else if(commands[i] == '[') depth--;
+        if(depth == 0) {
+            *index = i;
+            return 0;
+        }
+    }
+    return 1;
+}
 
 int Compute() {
     int M, C, I; // M = memory, C = code, I = input
@@ -17,10 +44,14 @@ int Compute() {
     char commands[C] = {0};
     char input[I] = {0};
     unsigned int computeTime = 0;
-
-    fgets(commands, C, stdin);
-
     struct BracketPos SelectedBracket;
+    SelectedBracket.open = SelectedBracket.close = -1;
+
+    // get code, input
+    fgets(commands, C, stdin);
+    fgets(input, I, stdin);
+
+
 
     for(int i = 0; i < C; i++) {
         if(++computeTime == 5000000) {
@@ -67,32 +98,6 @@ int Compute() {
         }
     }
     return -1;
-}
-
-int FindBracketO(char* commands, int* index) {
-    int depth = 1;
-    for(int i = *index + 1; i < strlen(commands); i++) {
-        if(commands[i] == '[') depth++;
-        else if(commands[i] == ']') depth--;
-        if(depth == 0) {
-            *index = i;
-            return 0;
-        }
-    }
-    return 1;
-}
-
-int FindBracketC(char* commands, int *index) {
-    int depth = 1;
-    for(int i = *index - 1; i >= 0; i--) {
-        if(commands[i] == ']') depth++;
-        else if(commands[i] == '[') depth--;
-        if(depth == 0) {
-            *index = i;
-            return 0;
-        }
-    }
-    return 1;
 }
 
 int main() {
