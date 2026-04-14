@@ -38,24 +38,30 @@ int Compute() {
     int M, C, I; // M = memory, C = code, I = input
     scanf("%d %d %d", &M, &C, &I);
 
-    // memory init
+    // memory init 
     unsigned int memory[M] = {0};
     unsigned int pointer = 0;
     char commands[C] = {0};
     char input[I] = {0};
     unsigned int computeTime = 0;
-    struct BracketPos SelectedBracket;
-    SelectedBracket.open = SelectedBracket.close = -1;
+    int Brackets = 0;
+    int currentBracket = 0;
 
     // get code, input
     fgets(commands, C, stdin);
     fgets(input, I, stdin);
 
+    for(int i = 0; i < C; i++) {
+        if(commands[i] == '[') Brackets++;
+    }
+
+    struct BracketPos BracketPair[Brackets];
+
 
 
     for(int i = 0; i < C; i++) {
         if(++computeTime == 5000000) {
-            printf("Loops %d %d\n", SelectedBracket.open, SelectedBracket.close);
+            printf("Loops %d %d\n", );
         }
         switch(commands[i]) {
             case '>':
@@ -78,14 +84,10 @@ int Compute() {
                 break;
             case '[':
                 if (memory[pointer] == 0) // loop open Br-O
-                    if (FindBracketO(commands, &i) == 1) { return 1; }
-                else {
-                    SelectedBracket.open = pointer;
-                }
+                    if (FindBracketO(commands, &i) == 1) return 1;
                 break;
             case ']':
                 if (memory[pointer] != 0) {
-                    SelectedBracket.close = pointer;
                     if (FindBracketC(commands, &i) == 1) return 1;
                 }
                 break;
