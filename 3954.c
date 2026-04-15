@@ -49,23 +49,10 @@ int Compute() {
 
     for(int i = 0; i < C; i++) {
         if(++computeTime == 5000000) {
-            int depth = 0;
             int open, close;
-            // find loop pair
-            for (; i < C; i++) {
-                if(commands[i] == '[') depth++;
-                else if(commands[i] == ']') depth--;
-                if(depth == 0) {
-                    close = i;
-                    depth = 1;
-                    // find bracket(open)
-                    for (; i > 0; i--) {
-                        if (commands[i] == '[') depth--;
-                        else if(commands[i] == ']') depth++;
-                        if(depth == 0) open = i;
-                    }
-                }
-            }
+            // find loop bracket-> ??
+            // command excute log + find patternz
+
             printf("Loops %d %d\n", open, close);
             return -1;
         }
