@@ -3,11 +3,6 @@
 #include <stdio.h>
 #include <string.h>
 
-struct BracketPos {
-    int open;
-    int close;
-};
-
 int FindBracketO(const char* commands, int* index) {
     int depth = 1;
     for(int i = *index + 1; i < strlen(commands); i++) {
@@ -39,23 +34,27 @@ int Compute() {
     scanf("%d %d %d", &M, &C, &I);
 
     // memory init
-    unsigned int memory[M] = {0};
     unsigned int pointer = 0;
-    char commands[C] = {0};
-    char input[I] = {0};
+    unsigned int memory[M];
+    char commands[C];
+    char input[I];
+    int inputPos = 0;
     unsigned int computeTime = 0;
-    struct BracketPos SelectedBracket;
-    SelectedBracket.open = SelectedBracket.close = -1;
+
+    for (int i = 0; i < M; i++) memory[i] = 0;
 
     // get code, input
     fgets(commands, C, stdin);
     fgets(input, I, stdin);
 
-
-
     for(int i = 0; i < C; i++) {
         if(++computeTime == 5000000) {
-            printf("Loops %d %d\n", SelectedBracket.open, SelectedBracket.close);
+            int open, close;
+            // find loop bracket-> ??
+            // command excute log + find patternz
+
+            printf("Loops %d %d\n", open, close);
+            return -1;
         }
         switch(commands[i]) {
             case '>':
@@ -78,14 +77,10 @@ int Compute() {
                 break;
             case '[':
                 if (memory[pointer] == 0) // loop open Br-O
-                    if (FindBracketO(commands, &i) == 1) { return 1; }
-                else {
-                    SelectedBracket.open = pointer;
-                }
+                    if (FindBracketO(commands, &i) == 1) return 1;
                 break;
             case ']':
                 if (memory[pointer] != 0) {
-                    SelectedBracket.close = pointer;
                     if (FindBracketC(commands, &i) == 1) return 1;
                 }
                 break;
@@ -93,10 +88,14 @@ int Compute() {
                 // printf("%c", memory[pointer]);
                 // ignore
                 break;
+            case ',':
+                memory[pointer] = (unsigned int)input[inputPos++];
+                break;
             default:
                 break;
         }
     }
+    printf("Terminates\n");
     return -1;
 }
 
